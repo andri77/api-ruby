@@ -10,7 +10,6 @@ require 'cucumber'
 require 'require_all'
 require 'allure-cucumber'
 require 'yaml'
-require_rel '../pages'
 
 include AllureCucumber::DSL
 
@@ -26,32 +25,6 @@ $failed_scenarios = false
 #   puts "NO App loaded"
 #   raise
 # end
-begin
-case ENV['UI']
-  when 'UI'
-  appium_txt = File.join(Dir.pwd, 'features/support/standard_port/appium.txt')
-  caps = Appium.load_appium_txt file: appium_txt, verbose: true
-    puts 'Test use appium.txt'
-  when 'device'
-    appium_txt = File.join(Dir.pwd, 'features/support/ios_device/appium.txt')
-    caps = Appium.load_appium_txt file: appium_txt, verbose: true
-    puts 'Test use appium.txt'
-  when 'latest'
-    appium_txt = File.join(Dir.pwd, 'features/support/latest_sim/appium.txt')
-    caps = Appium.load_appium_txt file: appium_txt, verbose: true
-    puts 'Test use appium.txt'
-else
-  puts "I'm starting test in non default port"
-  appium_txt = File.join(Dir.pwd, 'features/support/non_standard_port/appium.txt')
-  caps = Appium.load_appium_txt file: appium_txt, verbose: true
-# else
-#   caps = Appium.load_appium_txt file: File.expand_path('./', __FILE__), verbose: true
-end
-Appium::Driver.new(caps)
-  puts caps
-Appium.promote_appium_methods Pages
-Appium.promote_singleton_appium_methods Pages
-end
 
 # setup env test/dev
 environment = ENV['ENVIRONMENT']

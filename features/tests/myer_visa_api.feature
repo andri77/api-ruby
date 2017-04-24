@@ -1,4 +1,4 @@
-@api
+
 Feature: As Myer One App user, I want to make API calls for Myer VISA application
 
   @api-visa
