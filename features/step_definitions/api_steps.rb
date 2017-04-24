@@ -1,4 +1,3 @@
-require 'httparty'
 require 'json'
 require 'typhoeus'
 
@@ -14,10 +13,12 @@ Given(/^I logged in as "([^"]*)" through API call$/) do |user|
       "platform"=>"iOS"
   }.to_json
   auth_url =  $auth_url + '/auth'
-  puts body
-  @result = HTTParty.post(auth_url,
-                          :body => body,
-                          :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json'} )
+  puts "Request post body " + body
+  @result = Typhoeus::Request.new(
+                          auth_url,
+                          method: :post,
+                          body: body,
+                          headers: { 'Content-Type' => 'application/json', 'Accept' => 'application/json'} ).run
   json = JSON.parse(@result.body)
   puts json
   @token = json["token"]

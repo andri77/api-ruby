@@ -1,8 +1,6 @@
-require 'httparty'
 require 'typhoeus'
 
 module ApiCalls
-  include Typhoeus
   @base_url = $price_finder_url
 
   def self.post_barcode(body)
