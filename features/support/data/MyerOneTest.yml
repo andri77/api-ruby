@@ -1,0 +1,100 @@
+---
+Registered_User:
+  :number: '1000051918'
+  :password: Set123456
+  :first_name: Ashwin
+  :last_name: T
+
+Find_Number_User:
+  :number: '627804 1262 3326 18'
+
+New_User:
+  :number: '2117547913'
+  :password: Set12345
+
+Web_User:
+  :number: '211754791'
+  :password: Set12345
+
+Additonal_Card_Holder:
+#  :number: '1050026729'
+  :number: '1840737429'
+  :password: Set12345
+
+Visa_User:
+  :number: '1347377216'
+  :password: Set123456
+
+Platinum_User:
+  :number: '1000051918'
+  :password: Set123456
+
+Gold_User:
+  :number: '1050046016'
+  :password: abcd4321
+
+Silver_User:
+  :number: '1103243917'
+  :password: Set12345
+
+Basic_User:
+  :number: '2117547913'
+  :password: Set123456
+
+Registered_User1:
+  :number: '6278041837524814'
+  :password: Set12345
+
+Registered_User2:
+  :number: '6278041837548318'
+  :password: Set12345
+  :first_name: Manu
+  :last_name: A
+
+Plastic_Card_User:
+  :number: '6278041837573217'
+  :password: Set12345
+  :first_name: TempAuto
+  :last_name: Tester
+
+Rewards_User:
+  :number: '1801312410'
+  :password: denisha71
+  :current_credits: 6000
+  :credits_to_go: 2000
+  :next_level_reward_card: 80
+  :earned_rewards: 60
+
+Basic_User:
+  :number: '2117547913'
+  :password: Set123456
+  :current_credits: 0
+  :credits_to_go: 2000
+  :next_level_reward_card: 20
+  :earned_rewards: 0
+  :current_year_credits: 0
+
+More_Than_2000_Credits_User:
+  :number: '1160067514'
+  :password: Set12345
+  :current_credits: 2020
+  :credits_to_go: 1980
+  :next_level_reward_card: 40
+  :earned_rewards: 20
+
+Multiple_of_2000_Credits_User:
+  :number: '1360589911'
+  :password: Set12345
+  :current_credits: 6000
+  :credits_to_go: 2000
+  :next_level_reward_card: 80
+  :earned_rewards: 60
+
+2000_Credits_User:
+  :number: '1017662715'
+  :password: Set12345
+  :current_credits: 2000
+  :credits_to_go: 2000
+  :next_level_reward_card: 40
+  :earned_rewards: 20
+

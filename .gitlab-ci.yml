@@ -1,0 +1,143 @@
+---
+stages:
+  - build
+  - test
+  - test2
+
+variables:
+  LC_ALL: "en_US.UTF-8"
+  VERSION: '4.1.6'
+  BUILD: "${CI_BUILD_ID:-local}"
+  PORT: "4727"
+
+.bdd: &bddtest
+ script:
+    - pwd
+    - ls -al
+    - cd apps
+    - ls -al
+    - rm -rf MyerOne.*
+    - cp -rf myerone-ios/MyerOne/build/Build/Products/Debug-iphonesimulator/MyerOne.app .
+    - cd ..
+    - rbenv local 2.3.1
+    - bash start_appium.sh
+    # - gem install bundler
+    # - bundle install
+    - sleep 5
+    - bash test_with_rerun.sh ${tag} ${env}
+ only:
+   - master
+ dependencies:
+  - build:app:simulator:test
+ tags:
+   - MyerOneCI
+
+build:app:simulator:test:
+ tags:
+    - MyerOneCI
+ stage: build
+ only:
+    - master
+ artifacts:
+   when: always
+   paths:
+    #  - myer-one/MyerOne/Build/MyerOne.xcarchive
+    #  - myer-one/MyerOne/Build/MyerOne.ipa /Users/builder/builds/myerone/myerone-bdd/
+    #  - /Users/builder/builds/myerone/myerone-bdd/apps/myerone-ios/MyerOne/build/Build/Products/Debug-iphonesimulator/MyerOne.app
+    #  - /Users/builder/builds/myerone/myerone-bdd/apps/myerone-ios/MyerOne/build/Build/Products/Debug-iphonesimulator/MyerOne.app.dSYM
+    - apps/myerone-ios/MyerOne/build/Build/Products/Debug-iphonesimulator/MyerOne.app
+    # - myerone-ios/MyerOne/build/Build/Products/Debug-iphonesimulator/MyerOne.app.dSYM
+ script:
+    - pwd
+    - ls -al
+    - cd apps
+    # - git clone --depth 1 https://gitlab-ci-token:$CI_BUILD_TOKEN@gitlab.myer-apps.com.au/myerone/myerone-ios
+    - git clone https://apurmawinata@gitlab.myer-apps.com.au/myerone/myerone-ios
+    - cd myerone-ios
+    - git branch
+    - ls -al
+    - cd MyerOne
+    - ls -al
+    - gem install cocoapods --version 1.1.1 --no-document
+    - locale
+    - pod repo update --verbose
+    - pod install
+    - /usr/libexec/PlistBuddy "MyerOne/Supporting Files/Settings.bundle/Root.plist" -c "Set PreferenceSpecifiers:0:DefaultValue ${VERSION}"
+    - /usr/libexec/PlistBuddy "MyerOne/Supporting Files/Settings.bundle/Root.plist" -c "Set PreferenceSpecifiers:1:DefaultValue test-config.plist"
+    - /usr/libexec/PlistBuddy "MyerOne/Supporting Files/Info.plist" -c "Set :CFBundleIdentifier com.myer.myerone.alpha"
+    - /usr/libexec/PlistBuddy "MyerOne/Supporting Files/Info.plist" -c "Set :CFBundleShortVersionString ${VERSION}"
+    - /usr/libexec/PlistBuddy "MyerOne/Supporting Files/Info.plist" -c "Set :CFBundleVersion ${CI_BUILD_ID}"
+    - /usr/libexec/PlistBuddy "MyerOne/Supporting Files/Info.plist" -c "Set :CFBundleName MYEROnetest"
+    - /usr/libexec/PlistBuddy "MyerOne/Supporting Files/Info.plist" -c "Set :CFBundleDisplayName MYEROnetest"
+    # Get the existing buildVersion and buildNumber values from the buildPlist
+    - /usr/libexec/PlistBuddy -c "Print CFBundleIdentifier" "MyerOne/Supporting Files/Info.plist"
+    - /usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "MyerOne/Supporting Files/Info.plist"
+    - /usr/libexec/PlistBuddy -c "Print CFBundleVersion" "MyerOne/Supporting Files/Info.plist"
+    - /usr/libexec/PlistBuddy -c "Print CFBundleName" "MyerOne/Supporting Files/Info.plist"
+    - /usr/libexec/PlistBuddy -c "Print CFBundleDisplayName" "MyerOne/Supporting Files/Info.plist"
+    - xcodebuild -workspace MyerOne.xcworkspace -scheme MyerOne -sdk iphonesimulator clean build -derivedDataPath build | xcpretty
+    - cd ../..
+    - pwd
+    - ls -al
+    # - rm -rf MyerOne.*
+    # - cp -rf myerone-ios/MyerOne/build/Build/Products/Debug-iphonesimulator/MyerOne.app .
+    - cd myerone-ios
+    - ls -al
+    - cd MyerOne
+    - ls -al
+    - cd build/Build/Products/Debug-iphonesimulator
+    - ls -al
+    - pwd
+    # - cp -rf /Users/builder/builds/myerone/myerone-bdd/apps/myerone-ios/MyerOne/build/Build/Products/Debug-iphonesimulator/MyerOne.app.dSYM /Users/builder/builds/myerone/myerone-bdd/apps/MyerOne.app.dSYM
+
+
+# build:app:simulator:test:
+#  <<: *buildsim
+
+# test:price-finder:api:
+#  <<: *bddtest
+#  variables:
+#     tag: "@api"
+#     env: "test"
+    
+# test:regression-tests:bdd:
+#  <<: *bddtest
+#  variables:
+#     tag: "@regression-test"
+#     env: "test" 
+    
+test:findnumber-tests:bdd:
+ stage: test2
+ <<: *bddtest
+ variables:
+    tag: "@findnumber"
+    env: "test"
+   
+test:account-tests:bdd:
+ stage: test
+ script:
+    - pwd
+    - ls -al
+    - cd apps
+    - ls -al
+    - rm -rf MyerOne.*
+    - cp -rf myerone-ios/MyerOne/build/Build/Products/Debug-iphonesimulator/MyerOne.app .
+    - cd ..
+    - rbenv local 2.3.1
+    - bash start_appium.sh
+    - gem install bundler
+    - bundle install
+    - bash test_with_rerun.sh @account test
+ dependencies:
+  - build:app:simulator:test
+ tags:
+   - AMac  
+    
+test:regression-tests:bdd:
+ stage: test
+ <<: *bddtest
+ variables:
+    tag: "@regression-test"
+    env: "test"
+
+    

@@ -1,0 +1,34 @@
+---
+Registered_User:
+  :number: '1838092514'
+  :password: Set12345
+  :first_name: Ashwin
+  :last_name: T
+
+Invalid_Member:
+  :number: '6278040000000000'
+
+Find_Number_User:
+  :number: '627804 1262 3326 18'
+
+New_User:
+  :number: '1838092514'
+  :password: Set12345
+
+Registered_User1:
+  :number: '6278041837524814'
+  :password: Set12345
+  :first_name: Ashwin
+  :last_name: T
+
+Registered_User2:
+  :number: '6278041837548318'
+  :password: Set12345
+  :first_name: Manu
+  :last_name: A
+
+Plastic_Card_User:
+  :number: '6278041837573217'
+  :password: Set12345
+  :first_name: TempAuto
+  :last_name: Tester
