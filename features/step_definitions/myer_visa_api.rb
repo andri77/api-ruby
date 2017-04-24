@@ -1,5 +1,6 @@
 require 'httparty'
 require 'json'
+require 'typhoeus'
 
 Given(/^As Myer One App user, I want to register for temporary account$/) do
 
@@ -27,11 +28,14 @@ Given(/^As Myer One App user, I want to register for temporary account$/) do
       "applicationURLType":"P"
   }.to_json
   myer_visa_active =  $myer_visa_url + '/v1/active'
-  puts body
-  @result = HTTParty.post(myer_visa_active,
-                          :body => body,
-                          :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json'} )
+  puts "Request post body " + body
+  @result = Typhoeus::Request.new(
+      myer_visa_active,
+      method: :post,
+      headers: { 'Content-Type' => 'application/json', 'Accept' => 'application/json'},
+      body: body
+  ).run
   json = JSON.parse(@result.body)
-  puts json
+  puts "Response body " + json.to_s
 
 end

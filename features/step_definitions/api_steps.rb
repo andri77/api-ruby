@@ -1,5 +1,6 @@
 require 'httparty'
 require 'json'
+require 'typhoeus'
 
 Given(/^I logged in as "([^"]*)" through API call$/) do |user|
   username = ENV_DATA[user][:number]

@@ -8,4 +8,5 @@ gem 'allure-cucumber'
 gem 'byebug'
 gem 'pry'
 gem 'httparty'
+gem 'typhoeus'
 
